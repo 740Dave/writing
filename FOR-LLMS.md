@@ -1,6 +1,6 @@
 # FOR-LLMS.md: a summary of this repository for a language model
 
-This repository holds writing by David Burnett. Its document is his response, dated April 1, 2026, to the NIST National Cybersecurity Center of Excellence (NCCoE) concept paper "Accelerating the Adoption of Software and AI Agent Identity and Authorization", submitted in his personal capacity; this file summarises the points that response makes, each with his own words and the heading they come from. The remainder of this document uses the FactLattice format.
+This repository holds writing by David Burnett. It holds two responses, both dated April 1, 2026, to the NIST National Cybersecurity Center of Excellence (NCCoE) concept paper "Accelerating the Adoption of Software and AI Agent Identity and Authorization": his own, submitted in his personal capacity (nodes prefixed NR-), and the corporate response of ZeroBiometrics, which he wrote (nodes prefixed ZR-). This file summarises the points each response makes, each with that response's own words and the heading they come from; where a point in the ZeroBiometrics response corresponds to one in the personal response, its ZR- node names the NR- node in a `corresponds-to` property. The remainder of this document uses the FactLattice format.
 
 ## [NR-DOC] Response to NIST NCCoE Concept Paper: "Accelerating the Adoption of Software and AI Agent Identity and Authorization"
 
@@ -529,3 +529,460 @@ This repository holds writing by David Burnett. Its document is his response, da
 - point: the paper scopes the project to enterprise, but conversationally produced specifications plus a protocol-layer enforcement point make the governance model accessible without ML teams or enterprise-scale infrastructure
 - quote: the fastest path to broad adoption of identity and authorization standards is through approaches that work at any scale.
 - section: Recommendations
+
+## [ZR-DOC] Response to NIST NCCoE Concept Paper: "Accelerating the Adoption of Software and AI Agent Identity and Authorization" (ZeroBiometrics)
+
+- kind: document
+- title: Response to NIST NCCoE Concept Paper: "Accelerating the Adoption of Software and AI Agent Identity and Authorization"
+- author: ZeroBiometrics (written by David Burnett)
+- date: 2026-04-01
+- recipient: NIST National Cybersecurity Center of Excellence (NCCoE), in response to its concept paper on AI agent identity and authorization (Draft February 2026); comment address AI-Identity@nist.gov
+- contact: David Burnett, Head of Product, ZeroBiometrics
+- file: nist-nccoe-ai-agent-identity-response-zerobiometrics-2026.md
+- file: nist-nccoe-ai-agent-identity-response-zerobiometrics-2026.pdf
+- status: public edition; the text is as submitted
+- attachment-named: ZeroBiometrics Technical White Paper — ZeroSentinel: A Standards-Aligned Cryptographic Human-Authorization Layer for Agentic AI; the attachment is not part of this repository and is not summarised here
+- relates-to: [NR-DOC]
+- corresponds-to: NR-DOC (the personal response describes this as the separate corporate response on the identity and authorization control plane)
+- engages: question-by-question answers in six sections (general questions, identification, authentication, authorization, auditing and non-repudiation, prompt injection), an alignment table, and comments on the three use cases
+- thesis: a biometric key derived at signing time, never stored, gives a cryptographic root of trust for binding a verified human's authorization to an AI agent's actions; the control plane should be cryptographic and external to the agent
+- collaboration-offered: participate in design reviews; answer technical questions about the biometric entropy-to-key-derivation technology, including its practical limitations; provide demonstrations of the ZeroSentinel architecture
+- collaboration-quote: We are a small company with a specific technical contribution. We do not presume to define the demonstration project's scope or direction.
+- section: front matter; Why ZeroBiometrics Is Responding; Collaboration
+
+## [ZR-CLAIM-DISTINCT-FROM-STORED-KEY] ZB states that stored-key PKI or FIDO alone cannot offer these properties
+
+- quote: No respondent building on stored-key PKI or FIDO alone can offer these properties, because the underlying technology — cryptographic key derivation from biometric entropy with both irreversibility and unlinkability — is architecturally distinct from biometric-gated key storage. **2.
+- section: General Comments
+- relates-to: [ZR-ARG-LAYERED-ASSURANCE]
+
+## [ZR-REC-EVALUATE-ON-MERITS] Evaluate the architecture on its merits, independent of any vendor's implementation
+
+- quote: Whether ZeroSentinel is commercially successful is irrelevant to whether its design — and the standards-aligned patterns it demonstrates — is responsive to this RFI.
+- section: General Comments
+
+## [ZR-CLAIM-GLOBAL-SCOPE] The control-plane need affects every person and business, worldwide, not only enterprise IT
+
+- quote: that cryptographically binds humans and AI agents is not an enterprise IT concern — it is an issue that affects every person and every business, not only in the United States but throughout the world
+- section: General Comments
+
+## [ZR-CLAIM-ROOT-OF-TRUST] Proof of which verified human authorized an action is a natural root of trust for an AI authorization control plane
+
+- part-of: [ZR-DOC]
+- kind: central-claim
+- point: if one can cryptographically prove which specific, verified human authorized an action, every delegation credential, scope boundary and revocation in the chain traces back to a biometrically proven human identity
+- quote: that is a natural root of trust for bootstrapping an AI authorization control plane. Every delegation credential, every scope boundary, every revocation in the chain traces back to a biometrically-proven human identity with strong cryptographic guarantees.
+- section: Why ZeroBiometrics Is Responding
+
+## [ZR-CLAIM-EXTERNAL-CRYPTOGRAPHIC-GOVERNANCE] Governance of an agent that can reason about its governance must be cryptographic and external to it
+
+- part-of: [ZR-DOC]
+- kind: central-claim
+- point: cryptographic non-repudiation for identities, permissions granted and actions taken is a must-have, not a nice-to-have, and the response calls it the only mechanism capable of producing a tamper-proof, immutable record of who authorized what, with what scope, and what the agent did; "trust the platform" is not a viable alternative
+- quote: When the entity being governed is capable of reasoning about its own governance, that governance must be cryptographic and external to the agent, not policy-based and dependent on the agent's cooperation.
+- section: Why ZeroBiometrics Is Responding
+
+## [ZR-CLAIM-STANDARDS-EXIST] The standards exist; the gap is applying them to bind human authorization to agent action
+
+- part-of: [ZR-DOC]
+- kind: central-claim
+- point: the standards listed in the concept paper are necessary but not sufficient, having been designed for human-interactive or machine-to-machine scenarios; the gap specific to agentic AI is delegation with scope
+- quote: The standards to build this already exist and are proven to operate at internet-scale. The gap is applying them to the specific problem of binding human authorization to agent action with an unbroken cryptographic chain.
+- quote-2: The gap specific to agentic AI is delegation with scope: binding a machine credential to a human's explicit, bounded authorization.
+- section: Why ZeroBiometrics Is Responding; Responses to Focus Area Questions > 1. General Questions
+
+## [ZR-CLAIM-STORED-KEY] The stored-key assumption and the FIDO assumption are structural vulnerabilities
+
+- part-of: [ZR-DOC]
+- kind: central-claim
+- point: conventional PKI, SPIFFE/SPIRE and OAuth all assume signing keys are generated and stored (in HSMs, secure enclaves or key vaults); a compromised key store enables undetectable impersonation of human authorization
+- quote: The stored-key assumption — and the FIDO assumption — are structural vulnerabilities.
+- quote-2: A compromised key store enables undetectable impersonation of human authorization.
+- section: General Comments (observation 1)
+
+## [ZR-CLAIM-FIDO-PRESENCE] FIDO proves device-holder presence, not identity
+
+- part-of: [ZR-DOC]
+- kind: central-claim
+- relates-to: [ZR-CLAIM-STORED-KEY]
+- point: in FIDO the biometric is a local gatekeeper that unlocks a stored private key, not a cryptographic participant; someone who enrolls their biometric on a stolen or compromised device is authenticated as the original user
+- concession: FIDO provides strong authenticator assurance and has earned its widespread adoption; the limitation is stated for FIDO as deployed, in the specific context of AI agent delegation
+- quote: For the question "which specific human authorized this AI agent?" — FIDO answers "someone who has this device," not "David Burnett."
+- section: General Comments (observation 1)
+
+## [ZR-CLAIM-PRIVACY-ABSENT] Privacy is absent from the concept paper's framing
+
+- part-of: [ZR-DOC]
+- kind: central-claim
+- point: the concept paper is enterprise-centric, with a single agent identity propagating across all systems; as agents act for individuals across organizational boundaries, cross-service identity correlation becomes a privacy liability
+- quote: As AI agents increasingly act on behalf of individuals across organizational boundaries — personal assistants accessing healthcare, financial, and workplace services — cross-service identity correlation becomes a privacy liability.
+- section: General Comments (observation 2)
+
+## [ZR-CLAIM-DATA-FLOW-ENFORCEMENT] Data flow must be enforced, not just tracked
+
+- part-of: [ZR-DOC]
+- kind: central-claim
+- point: Focus Area 5 frames data flow as a tracking problem; the critical risk is that agents authorized for several tools combine permissions to exfiltrate data
+- quote: an agent with read access to sensitive records and write access to email can combine those capabilities in ways that individual tool permissions do not control.
+- section: General Comments (observation 3)
+
+## [ZR-CLAIM-INSPECTABLE-ARTIFACTS] Agent governance is most effective when agent behavior is driven by inspectable artifacts
+
+- part-of: [ZR-DOC]
+- kind: central-claim
+- relates-to: [NR-REC-1], [NR-ARG-FT-OPACITY], [NR-CLAIM-MISSING-LAYER]
+- corresponds-to: NR-REC-1; NR-ARG-FT-OPACITY; NR-CLAIM-MISSING-LAYER
+- point: the concept paper addresses what agents are authorized to do but not how they acquire the context to do it effectively; the most auditable agents have operating rules, task definitions and domain constraints in structured, machine-parseable specifications rather than fine-tuned weights
+- quote: A delegation credential that references a specific, versioned specification is meaningfully auditable — a regulator or compliance officer can inspect exactly what the agent was told to do.
+- quote-2: A delegation credential that references a fine-tuned model is a black box with an access control wrapper.
+- regulated-contexts: SOX Section 404, HIPAA, GDPR Article 22; auditable documentation of automated decision-making processes is stated to be a compliance requirement opaque model weights cannot satisfy
+- section: General Comments (observation 4)
+
+## [ZR-CLAIM-RISK-TAXONOMY] Risks authorization can address must be distinguished from risks it cannot
+
+- part-of: [ZR-DOC]
+- kind: central-claim
+- relates-to: [NR-CLAIM-COMPLEMENTARY], [NR-ARG-NOT-ERROR-CORRECTION]
+- corresponds-to: NR-CLAIM-COMPLEMENTARY; NR-ARG-NOT-ERROR-CORRECTION
+- authorization-addressable: unauthorized scope; unauthorized delegation; unrevocable access; unattributable actions; unauthorized data exfiltration; proprietary data leakage
+- not-authorization-addressable: prompt injection (confused intent within authorized scope); model hallucination; alignment failures; complementary concerns that benefit from defense-in-depth at the enforcement layer
+- quote: This distinction is important for scoping the demonstration project. Conflating authorization with alignment risks producing a system that does neither well.
+- section: Responses to Focus Area Questions > 1. General Questions
+
+## [ZR-CLAIM-POLICY-AT-SIGNING-TIME] Policy should be fixed at signing time, not mutable at runtime
+
+- part-of: [ZR-DOC]
+- kind: central-claim
+- point: if policy is mutable at runtime a compromised policy engine can silently expand an agent's permissions; ZeroSentinel moves policy evaluation to signing time, where the human approves it and it is cryptographically bound into the delegation credential
+- quote: The enforcement layer validates the signed artifact, not a runtime policy query. A compromised policy engine cannot expand permissions on existing delegations.
+- section: Responses to Focus Area Questions > 4. Authorization
+
+## [ZR-CLAIM-AUDIT-BY-ARCHITECTURE] Audit completeness should be an architectural property
+
+- part-of: [ZR-DOC]
+- kind: central-claim
+- point: if an enforcement proxy mediates every agent-to-service interaction, the audit trail at the proxy is complete by construction; each entry should include the delegation credential fingerprint, request hash, policy evaluation result and outcome
+- quote: The key insight is that audit completeness should be an architectural property, not an agent cooperation requirement.
+- section: Responses to Focus Area Questions > 5. Auditing and Non-Repudiation
+
+## [ZR-CLAIM-BIOMETRIC-NON-REPUDIATION] A biometric-derived signature gives cryptographic non-repudiation bound to biometric presence
+
+- part-of: [ZR-DOC]
+- kind: central-claim
+- depends-on: [ZR-EVID-ISO-30136]
+- point: because the signing key can only be reconstructed from the human's biometric, a valid signature proves a specific human was biometrically present when the delegation was created
+- quote: This is not log-based non-repudiation (which depends on log integrity) — it is cryptographic non-repudiation bound to biometric presence.
+- section: Responses to Focus Area Questions > 5. Auditing and Non-Repudiation
+
+## [ZR-CLAIM-HITL-CEREMONY] Human-in-the-loop should be a cryptographic ceremony
+
+- part-of: [ZR-DOC]
+- kind: central-claim
+- relates-to: [ZR-CLAIM-BIOMETRIC-NON-REPUDIATION]
+- quote: Human-in-the-loop should be a cryptographic ceremony, not a policy configuration.
+- binding-artifact: the delegation credential, signed by the human's key, issued to the agent's key, carrying machine-enforceable policy
+- section: Responses to Focus Area Questions > 4. Authorization
+
+## [ZR-CLAIM-SPECIFICATION-BRIDGE] Structured specifications are the bridge between authorization and agent effectiveness
+
+- part-of: [ZR-DOC]
+- kind: central-claim
+- relates-to: [NR-CLAIM-COMPLEMENTARY], [NR-ARG-FT-ACCESSIBILITY], [NR-CLAIM-DEMOCRATIZATION]
+- corresponds-to: NR-CLAIM-COMPLEMENTARY; NR-ARG-FT-ACCESSIBILITY; NR-CLAIM-DEMOCRATIZATION
+- point: the delegation credential defines what the agent is permitted to do; the specification defines what it is intended to do and how; together they form a complete governance model; specifications can be produced by domain experts working conversationally with AI assistants, with no custom model training
+- quote: The delegation credential defines what the agent is permitted to do; the specification defines what the agent is intended to do and how. Together they form a complete governance model.
+- section: Comments on Use Cases
+
+## [ZR-ARG-LAYERED-ASSURANCE] Biometric key derivation enables a layered identity assurance model FIDO cannot express
+
+- part-of: [ZR-CLAIM-STORED-KEY]
+- kind: argument
+- relates-to: [ZR-CLAIM-FIDO-PRESENCE]
+- level-1: biometric key derivation alone proves the same person signed both times (cryptographic continuity without stored keys)
+- level-2: plus IDV endorsement, proves the same person signed and that person's identity has been verified by document review (passport, Real ID)
+- level-3: plus a platform authenticator, gives cryptographic triangulation: three independent signals corroborating the same human's presence and identity
+- compatibility: stated to be compatible with SP 800-63-4 identity assurance levels
+- quote: the human's signing key is reconstructed from biometric entropy at signing time and never persisted — the biometric IS the key, not a gatekeeper for one.
+- section: General Comments (observation 1)
+
+## [ZR-ARG-COMMON-GAP] Across enterprise deployment patterns, the common gap is a verifiable link to a human's authorization
+
+- part-of: [ZR-DOC]
+- kind: argument
+- relates-to: [ZR-EX-DEPLOYMENT-PATTERNS]
+- quote: In all three patterns, the common gap is the same: no verifiable, scoped, revocable link between the agent's actions and a specific human's authorization.
+- section: Responses to Focus Area Questions > 1. General Questions
+
+## [ZR-ARG-MCP-ENFORCEMENT-POINT] MCP creates a natural enforcement point
+
+- part-of: [ZR-DOC]
+- kind: argument
+- relates-to: [NR-ARG-STD-MCP]
+- corresponds-to: NR-ARG-STD-MCP
+- point: an MCP-aware proxy can validate authorization credentials on every tool invocation without modifying the agent or the tool server; ZeroIntent operates as such a proxy
+- quote: This architecture demonstrates that authorization enforcement can be deployed at the protocol layer without requiring ecosystem-wide adoption before the system is useful.
+- section: Responses to Focus Area Questions > 1. General Questions
+
+## [ZR-ARG-POLICY-IN-CERTIFICATE] Policy-in-certificate rather than policy-in-engine
+
+- part-of: [ZR-CLAIM-POLICY-AT-SIGNING-TIME]
+- kind: argument
+- quote: This approach — policy-in-certificate rather than policy-in-engine — ensures that authorization scope is cryptographically fixed at signing time and cannot be expanded by a compromised policy engine or a misconfigured runtime.
+- mechanism: X.509 certificate extensions (OIDs) embed machine-enforceable policy directly in delegation credentials
+- section: Responses to Focus Area Questions > 1. General Questions
+
+## [ZR-ARG-OIDC] OIDC complements X.509/mTLS for web-based flows
+
+- part-of: [ZR-DOC]
+- kind: argument
+- quote: OIDC is a natural extension for the authentication layer, complementing X.509/mTLS for web-based flows where browser-compatible identity protocols are required.
+- section: Responses to Focus Area Questions > 1. General Questions
+
+## [ZR-ARG-CRYPTOGRAPHIC-AGENT-IDENTITY] Agent identity should be cryptographic, with SCIM lifecycle and revocation cascade
+
+- part-of: [ZR-DOC]
+- kind: argument
+- point: an X.509 agent identity certificate with proof-of-possession fits existing enterprise PKI; metadata (model version, runtime environment, organizational affiliation) can be certificate extensions; lifecycle via SCIM (RFC 7643/7644), where deprovisioning an agent should invalidate all active delegation credentials, tokens and sub-delegations derived from its identity
+- quote: Agent identity should be cryptographic, not nominal.
+- section: Responses to Focus Area Questions > 2. Identification
+
+## [ZR-ARG-LAYERED-LIFETIMES] Different identity layers should have different lifetimes
+
+- part-of: [ZR-DOC]
+- kind: argument
+- lifetimes: human identity long-lived; agent identity medium-lived; delegation authority short-lived and task-scoped
+- quote: This layered lifetime model is architecturally correct, not a compromise — it reflects the different trust semantics of each layer.
+- section: Responses to Focus Area Questions > 2. Identification
+
+## [ZR-ARG-AUTHN-PLUS-DELEGATION] Strong agent authentication combines identity with delegation validation
+
+- part-of: [ZR-DOC]
+- kind: argument
+- point: mTLS with an X.509 agent certificate plus delegation credential validation proves both who the agent is and what it is authorized to do
+- quote: Authentication without authorization verification is insufficient in agentic contexts — an authenticated agent may still be acting outside its authorized scope.
+- section: Responses to Focus Area Questions > 3. Authentication
+
+## [ZR-ARG-HUMAN-KEY] The harder key-management problem is the human's signing key
+
+- part-of: [ZR-CLAIM-STORED-KEY]
+- kind: argument
+- point: for agent keys standard certificate lifecycle management applies; conventional approaches to the human's key (HSM, secure enclave, password-protected keystore) share the vulnerability that the key can be stolen; biometric key derivation reconstructs an ephemeral ECC keypair at signing time
+- quote: There is no stored private key to steal, no key file to exfiltrate, no passphrase to phish. The human IS the key, not the holder of one.
+- section: Responses to Focus Area Questions > 3. Authentication
+
+## [ZR-ARG-REVOCATION-CASCADE] Revocation should cascade through the delegation chain as a structural property
+
+- part-of: [ZR-DOC]
+- kind: argument
+- relates-to: [NR-ARG-STD-ZERO-TRUST]
+- point: consistent with SP 800-207, revoking the human's root credential should instantly invalidate all derived delegation credentials, issued tokens and sub-delegations
+- quote: This requires that each credential's validity depends on its parent's validity — a structural property, not a runtime policy check.
+- section: Responses to Focus Area Questions > 3. Authentication
+
+## [ZR-ARG-ZERO-TRUST] Zero trust at the agent-service boundary checks the specific action against the current delegation
+
+- part-of: [ZR-DOC]
+- kind: argument
+- relates-to: [NR-ARG-STD-ZERO-TRUST]
+- corresponds-to: NR-ARG-STD-ZERO-TRUST
+- point: consistent with SP 800-207, deny by default and verify every request, with an enforcement proxy validating the delegation credential on every tool invocation
+- quote: the verification must check not only "is this agent authenticated" but "does this agent's current delegation authorize this specific action, for this specific service, at this time."
+- section: Responses to Focus Area Questions > 4. Authorization
+
+## [ZR-ARG-MONOTONIC-CONTEXT] Dynamic context changes are handled by constraints in the credential, not by mutating it
+
+- part-of: [ZR-CLAIM-POLICY-AT-SIGNING-TIME]
+- kind: argument
+- point: for example, classification-aware data flow rules that monotonically restrict what the agent can do as session sensitivity accumulates; session classification only increases
+- quote: Session classification should be monotonically increasing: once an agent accesses data at a given sensitivity level, the session remains at that level or higher.
+- section: Responses to Focus Area Questions > 4. Authorization
+
+## [ZR-ARG-INDEPENDENT-CLASSIFIER] Aggregation sensitivity is assessed by an independent ephemeral agent the primary agent cannot influence
+
+- part-of: [ZR-CLAIM-DATA-FLOW-ENFORCEMENT]
+- kind: argument
+- relates-to: [NR-ARG-CONTEXT-CLEAN], [ZR-EX-MOSAIC]
+- corresponds-to: NR-ARG-CONTEXT-CLEAN
+- point: static aggregation rules in the credential cover known combinations; contextual assessment uses a short-lived, purpose-scoped agent spawned by the enforcement proxy, working from the session's data flow history and machine-parseable classification specifications
+- quote: This is the same structural independence principle used for independent quality assurance in software development: the entity that produced the work product should not be the entity that evaluates its compliance.
+- section: Responses to Focus Area Questions > 4. Authorization
+
+## [ZR-ARG-LEAST-PRIVILEGE] Least privilege made human-decidable, with the task defined in a referenced specification
+
+- part-of: [ZR-DOC]
+- kind: argument
+- relates-to: [NR-ARG-STD-OAUTH], [ZR-CLAIM-SPECIFICATION-BRIDGE]
+- corresponds-to: NR-ARG-STD-OAUTH
+- point: the credential enumerates specific tools, services and data classifications; anything else is denied; authority the agent lacks requires a new biometric signing ceremony; the task definition is best expressed as a structured specification the credential references, which domain experts can produce conversationally with AI assistants
+- quote: Our approach is to make least privilege human-decidable: the delegation credential enumerates specific tools, specific services, and specific data classifications the agent may access. Anything not explicitly authorized is denied.
+- section: Responses to Focus Area Questions > 4. Authorization
+
+## [ZR-ARG-INTENT-ARTIFACTS] Intent is best conveyed by external, inspectable artifacts
+
+- part-of: [ZR-CLAIM-INSPECTABLE-ARTIFACTS]
+- kind: argument
+- relates-to: [NR-REC-1]
+- corresponds-to: NR-REC-1
+- point: when task, constraints and operating rules are in specifications referenced by the credential, intent is transparent to the authorizing human, the enforcement layer, the auditor and screening tools
+- quote: Intent is best conveyed by external, inspectable artifacts rather than by the agent's own claims.
+- section: Responses to Focus Area Questions > 4. Authorization
+
+## [ZR-ARG-SCOPE-NARROWING] In agent-to-agent delegation, scope can only narrow
+
+- part-of: [ZR-DOC]
+- kind: argument
+- relates-to: [NR-CLAIM-INTEGRATION]
+- corresponds-to: NR-CLAIM-INTEGRATION
+- point: an orchestrating agent can issue a sub-delegation granting a strict subset of its own authority; when orchestration is driven by specifications that decompose a task into sub-tasks, sub-delegation boundaries come from the specification rather than the orchestrator's judgment; the human controls maximum delegation depth
+- quote: The critical invariant is that scope can only narrow through the delegation chain, never expand.
+- section: Responses to Focus Area Questions > 4. Authorization
+
+## [ZR-ARG-INJECTION-HOOKS] The enforcement proxy hosts open, bidirectional prompt-injection screening hooks
+
+- part-of: [ZR-DOC]
+- kind: argument
+- relates-to: [ZR-CLAIM-RISK-TAXONOMY]
+- point: authorization prevents unauthorized actions; prompt injection causes unintended actions that may fall within scope; the proxy screens inbound requests for direct injection and outbound tool responses for indirect injection, using the enterprise's preferred detection engine
+- quote: ZeroBiometrics provides the architectural enforcement point; enterprises connect their preferred detection engine.
+- section: Responses to Focus Area Questions > 6. Prompt Injection Prevention and Mitigation
+
+## [ZR-ARG-PERSONAL-AGENTS] Personal AI agents need pairwise-pseudonymous delegation
+
+- part-of: [ZR-DOC]
+- kind: argument
+- relates-to: [ZR-CLAIM-PRIVACY-ABSENT]
+- point: the fastest-growing deployment of AI agents is personal, acting across organizational boundaries with no central enterprise authority; it needs the same cryptographic properties plus unlinkability of the human's identity across services
+- quote: the human's identity at one service must not be correlatable with their identity at another service.
+- section: Comments on Use Cases
+
+## [ZR-EVID-ISO-30136] ZeroFace is certified under ISO/IEC 30136:2018 by BixeLab
+
+- part-of: [ZR-DOC]
+- kind: evidence
+- relates-to: [ZR-CLAIM-ROOT-OF-TRUST]
+- point: certified by BixeLab (ISO/IEC 17025 accredited, Australia), validating irreversibility and unlinkability; the response cites the attached white paper, Appendix C, for detail
+- quote: This capability is certified under ISO/IEC 30136:2018 by BixeLab (ISO/IEC 17025 accredited, Australia), validating both irreversibility and unlinkability.
+- section: Why ZeroBiometrics Is Responding
+
+## [ZR-EVID-MATURITY] Stated maturity of ZeroFace and ZeroSentinel
+
+- part-of: [ZR-DOC]
+- kind: evidence
+- point: ZeroFace is deployed commercially; ZeroSentinel's architecture is fully specified, with production-ready components at varying stages of maturity
+- quote: ZeroFace is ISO/IEC 30136-certified, and is deployed commercially. ZeroSentinel's architecture is fully specified with production-ready components at varying stages of maturity.
+- section: Why ZeroBiometrics Is Responding
+
+## [ZR-EVID-CIRCUMVENTION] Agents attempting to circumvent their controls, cited as documented
+
+- part-of: [ZR-DOC]
+- kind: evidence
+- relates-to: [ZR-CLAIM-EXTERNAL-CRYPTOGRAPHIC-GOVERNANCE]
+- supports-claim: ZR-CLAIM-EXTERNAL-CRYPTOGRAPHIC-GOVERNANCE
+- source-named: none in the response
+- quote: documented instances exist of AI agents becoming sufficiently goal-driven that they actively attempt to circumvent the controls meant to govern them.
+- section: Why ZeroBiometrics Is Responding
+
+## [ZR-REC-1] Recommendation: evaluate biometric key derivation
+
+- part-of: [ZR-DOC]
+- kind: recommendation
+- depends-on: [ZR-CLAIM-STORED-KEY]
+- quote: The demonstration project should evaluate biometric key derivation, where the human's signing key is reconstructed from biometric entropy at signing time and never persisted
+- section: General Comments (observation 1)
+
+## [ZR-REC-2] Recommendation: consider pairwise-pseudonymous delegation architectures
+
+- part-of: [ZR-DOC]
+- kind: recommendation
+- depends-on: [ZR-CLAIM-PRIVACY-ABSENT]
+- quote: The demonstration project should consider pairwise-pseudonymous delegation architectures, consistent with the privacy principles in FIDO2/WebAuthn, where a relying party can verify that a delegation is valid without learning the human's identity at other services.
+- section: General Comments (observation 2)
+
+## [ZR-REC-3] Recommendation: evaluate classification-aware enforcement of cross-tool data flow
+
+- part-of: [ZR-DOC]
+- kind: recommendation
+- depends-on: [ZR-CLAIM-DATA-FLOW-ENFORCEMENT]
+- quote: The demonstration project should evaluate classification-aware enforcement models where cross-tool data flow constraints are embedded in the delegation credential and enforced at the proxy layer, not merely logged after the fact.
+- section: General Comments (observation 3)
+
+## [ZR-REC-4] Recommendation: evaluate policy-in-certificate alongside the policy-engine approach
+
+- part-of: [ZR-DOC]
+- kind: recommendation
+- depends-on: [ZR-ARG-POLICY-IN-CERTIFICATE]
+- quote: We recommend the demonstration project evaluate this pattern alongside the traditional policy-engine approach.
+- section: Responses to Focus Area Questions > 1. General Questions
+
+## [ZR-REC-5] Recommendation: address both enterprise-owned agents and agents hosted by commercial AI services
+
+- part-of: [ZR-DOC]
+- kind: recommendation
+- point: for enterprise-owned agents runtime attestation is tractable (secure boot, TPM/TEE, model hash verification); for commercial AI services it must come from the AI provider
+- quote: The demonstration project should address both cases and should not assume that all agents run in environments the enterprise controls.
+- section: Responses to Focus Area Questions > 2. Identification
+
+## [ZR-REC-6] Recommendation: consider the personal use case in a future iteration
+
+- part-of: [ZR-DOC]
+- kind: recommendation
+- depends-on: [ZR-ARG-PERSONAL-AGENTS]
+- relates-to: [NR-REC-3]
+- corresponds-to: NR-REC-3 (both look beyond the enterprise scope: the personal response by organization size, this response by personal use)
+- quote: We recommend the demonstration project consider the personal use case in a future iteration, as the architectural requirements it surfaces (privacy-by-design, no central authority, cross-organizational delegation) will eventually apply to enterprise deployments as well.
+- section: Comments on Use Cases
+
+## [ZR-EX-ALIGNMENT-TABLE] Worked example: the focus area alignment summary
+
+- part-of: [ZR-DOC]
+- kind: worked-example
+- row-1: 1. Identification; X.509 agent identity certificate (ZeroAgent) with proof-of-possession via mTLS, SCIM lifecycle management, layered lifetimes; standards X.509, mTLS, SCIM (RFC 7643/7644)
+- row-2: 2. Authentication; mTLS agent authentication plus delegation credential validation, human authentication via ISO/IEC 30136-certified biometric key reconstruction with no stored private key; standards X.509, mTLS, ISO/IEC 30136
+- row-3: 3. Authorization; human-signed delegation certificate (ZeroGrant) with machine-enforceable OID policy extensions, policy fixed at signing time, NGAC graph with human-signed mutations; standards X.509 OIDs, OAuth 2.0 (RFC 8705), NGAC (INCITS 565)
+- row-4: 4. Access Delegation; biometric signing ceremony, credentials specifying scope, audience, time bounds and data flow constraints, agent-to-agent sub-delegation with a scope-narrowing invariant; standards X.509, FIDO-inspired ceremony
+- row-5: 5. Logging & Transparency; enforcement proxy (ZeroIntent) mediating all agent-to-service interactions, entries with delegation fingerprint, request hash, policy evaluation and outcome; standards append-only audit log, cryptographic fingerprints
+- row-6: 6. Data Flow Tracking; classification-aware enforcement at the proxy, tool-level sensitivity classifications, independent ephemeral agent for aggregation assessment, open DLP hook, cross-tool flow constraints enforced; standards X.509 OID extensions (DATA-FLOW-POLICY)
+- row-7: Prompt Injection; three-layer defense-in-depth; standards open hook API, vendor-neutral
+- quote: Cross-tool flow constraints enforced, not just logged.
+- section: Focus Area Alignment Summary
+
+## [ZR-EX-DEPLOYMENT-PATTERNS] Worked example: three enterprise deployment patterns
+
+- part-of: [ZR-DOC]
+- kind: worked-example
+- pattern-1: developer tooling; broad permissions inherited from the developer's service accounts, with no mechanism to scope authority to a task or time window
+- pattern-2: workflow automation; email, calendars, CRM and document stores, with no cryptographic binding to the authorizing human
+- pattern-3: security operations; the non-repudiation requirement is highest here
+- quote: The authorization gap here is acute — these agents access sensitive data across multiple services with no cryptographic binding to the human who authorized the access.
+- section: Responses to Focus Area Questions > 1. General Questions
+
+## [ZR-EX-ZEROSENTINEL-COMPONENTS] Worked example: the ZeroSentinel components named in the response
+
+- part-of: [ZR-DOC]
+- kind: worked-example
+- zerocert: X.509 certificate containing the public portion of a biometrically derived IdentityKey; the private key is reconstructed from face entropy at signing time
+- zerogrant: delegation certificate signed by the human in a biometric ceremony, specifying scope, audience, time bounds and data flow constraints as OID extensions
+- zerointent: proxy enforcement gateway validating every agent request against the signed ZeroGrant, with open hooks for prompt injection screening and DLP, issuing sender-constrained OAuth 2.0 tokens (RFC 8705)
+- zeroagent: X.509 agent identity certificate with proof-of-possession, validated via mTLS, lifecycle managed via SCIM
+- quote: It operates at the protocol layer: deployment is a proxy configuration, not a platform migration.
+- section: Responses to Focus Area Questions > 1. General Questions
+
+## [ZR-EX-MOSAIC] Worked example: the mosaic effect
+
+- part-of: [ZR-ARG-INDEPENDENT-CLASSIFIER]
+- kind: worked-example
+- quote: An agent authorized to read HR records and also read calendar data could infer personnel patterns that neither data source reveals alone.
+- section: Responses to Focus Area Questions > 4. Authorization
+
+## [ZR-EX-INJECTION-LAYERS] Worked example: three layers that constrain the damage after a prompt injection
+
+- part-of: [ZR-DOC]
+- kind: worked-example
+- relates-to: [NR-ARG-PROMPT-INJECTION], [ZR-ARG-INJECTION-HOOKS]
+- corresponds-to: NR-ARG-PROMPT-INJECTION
+- layer-1: scope-bounded delegation; the proxy validates every request against the signed credential, so an injection cannot exceed the delegation scope
+- layer-2: classification-aware data flow enforcement; flow constraints can block exfiltration within the authorized tool set
+- layer-3: independent content inspection; open DLP hooks inspect request and response content
+- quote: No single layer solves prompt injection.
+- quote-2: A successful injection cannot cause the agent to exceed its delegation scope because the enforcement proxy validates every request against the signed credential.
+- section: Responses to Focus Area Questions > 6. Prompt Injection Prevention and Mitigation
